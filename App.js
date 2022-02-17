@@ -3,26 +3,39 @@ import { useState } from 'react';
 import { Button, StyleSheet, Text, View, Image } from 'react-native';
 
 export default function App() {
-  const [randomImage, setRandomImage] = useState('https://random-d.uk/api/108.jpg');
+  const [duckRandomImage, setDuckRandomImage] = useState('https://random-d.uk/api/108.jpg');
+  const [foxRandomImage, setFoxRandomImage] = useState('https://randomfox.ca/images/51.jpg');
 
-  const getRandomImage = async () => {
+  const getDuckRandomImage = async () => {
     const res = await fetch('https://random-d.uk/api/v2/random');
     const data = await res.json();
-    setRandomImage(data.url);
+    setDuckRandomImage(data.url);
   };
 
-
+  const getFoxRandomImage = async () => {
+    const res = await fetch('https://randomfox.ca/floof/');
+    const data = await res.json();
+    setFoxRandomImage(data.image);
+  };
 
   return (
     <View style={styles.container}>
-      <Text style={{paddingBottom: 20}}>Cliquez sur le bouton pour faire apparaître l'image...</Text>
-      
+      <View style={styles.duck}>
+        <Text style={{margin: 30, color: 'white', textAlign: 'center'}}>Canard</Text>
         <Image
-          source={{uri: randomImage}}
+          source={{uri: duckRandomImage}}
           style={{width: 200, height: 200, marginBottom: 20}}
         />
-      
-      <Button onPress={getRandomImage} title="Click me"/>
+        <Button onPress={getDuckRandomImage} title="Click me"/>
+      </View>
+      <View style={styles.fox}>
+        <Text style={{margin: 30, color: 'white'}}>Renard</Text>
+        <Image
+          source={{uri: foxRandomImage}}
+          style={{width: 200, height: 200, marginBottom: 20}}
+        />
+        <Button onPress={getFoxRandomImage} title="Click me"/>
+      </View>
       <StatusBar style="auto" />
     </View>
   );
@@ -31,8 +44,24 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'green',
+    backgroundColor: 'black',
     alignItems: 'center',
     justifyContent: 'center',
   },
+  duck: {
+    flex: 1,
+    backgroundColor: 'green',
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: '100%',
+    paddingBottom: 20,
+  },
+  fox: {
+    flex: 1,
+    backgroundColor: 'blue',
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: '100%',
+    paddingBottom: 20,
+  }
 });
